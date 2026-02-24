@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Phone,
@@ -16,6 +16,7 @@ import {
   Building2,
   Home,
   AlertTriangle,
+  Camera,
 } from 'lucide-react';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -54,6 +55,13 @@ const COUNTRY_CODES = [
   { code: '+81', label: '🇯🇵 日本 +81' },
   { code: '+82', label: '🇰🇷 韓國 +82' },
 ];
+
+// ─── Districts (from bed-bug-landingpage) ─────────────────────────────────────
+const DISTRICTS = {
+  '港島': ['中西區', '灣仔', '東區', '南區'],
+  '九龍': ['油尖旺', '深水埗', '九龍城', '黃大仙', '觀塘'],
+  '新界': ['荃灣', '屯門', '元朗', '北區', '大埔', '沙田', '西貢', '葵青', '離島'],
+};
 
 // ─── FadeIn Component ──────────────────────────────────────────────────────────
 interface FadeInProps {
@@ -282,10 +290,19 @@ function QuoteForm() {
           </div>
         </div>
 
-        {/* 4. 服務地區 */}
+        {/* 4. 服務地區（下拉選單，參照 bed-bug-landingpage） */}
         <div>
           <label className={labelClass}>服務地區 <span className="text-red-500">*</span></label>
-          <input type="text" name="district" required placeholder="例：沙田、荃灣、九龍城..." className={inputClass} />
+          <select name="district" required className={inputClass + " appearance-none"}>
+            <option value="">-- 請選擇地區 --</option>
+            {Object.entries(DISTRICTS).map(([region, areas]) => (
+              <optgroup key={region} label={region}>
+                {areas.map(area => (
+                  <option key={area}>{area}</option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
         </div>
 
         {/* ── 動態表單：家居 ── */}
@@ -467,14 +484,18 @@ function QuoteForm() {
 function Hero() {
   return (
     <section className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-slate-900">
+      {/* 桌面/Pad 背景圖 */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2000&auto=format&fit=crop"
-          alt="Professional Pest Control"
-          className="w-full h-full object-cover opacity-15"
-          referrerPolicy="no-referrer"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-900/50"></div>
+        <picture>
+          <source media="(max-width: 767px)" srcSet="/images/hero-mobile.jpg" />
+          <img
+            src="/images/hero-desktop.jpg"
+            alt="滅蟲職人專業施工"
+            className="w-full h-full object-cover object-center"
+          />
+        </picture>
+        {/* 覆蓋層：降低透明度讓文字更清晰 */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/75 to-slate-900/40"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -497,7 +518,7 @@ function Hero() {
               className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6"
             >
               香港專業<span className="text-red-500">滅蟲服務</span><br />
-              根治蟲害，<span className="text-red-500">100%包斷尾</span>
+              根治蟲害，<span className="text-red-500">徹底解決</span>
             </motion.h1>
 
             <motion.p
@@ -574,7 +595,7 @@ function StatsBar() {
           {[
             { value: '200+', label: '真實 Google 好評' },
             { value: '4.9⭐', label: 'Google 評分' },
-            { value: '100%', label: '包斷尾保障' },
+            { value: '10年+', label: '專業滅蟲經驗' },
             { value: '24H', label: '最快上門時間' },
           ].map((stat, i) => (
             <div key={i}>
@@ -630,11 +651,99 @@ function ServicesGrid() {
   );
 }
 
+// ─── Case Gallery (真實個案相片) ───────────────────────────────────────────────
+function CaseGallery() {
+  const cases = [
+    {
+      img: '/images/case-1.jpg',
+      title: '商業場所蟲害檢查',
+      desc: '師傅使用專業內窺鏡設備，深入管道及隱蔽位置進行全面蟲害檢查，找出蟲害根源。',
+      tag: '商業服務',
+    },
+    {
+      img: '/images/case-2.jpg',
+      title: '床褥高溫蒸氣處理',
+      desc: '使用專業蒸氣機對床褥進行高溫處理，有效殺滅床蝨及蟲卵，安全無藥劑殘留。',
+      tag: '家居服務',
+    },
+    {
+      img: '/images/case-3.jpg',
+      title: '家居蟲害全面處理',
+      desc: '師傅對家居各隱蔽位置進行針對性藥劑噴灑，確保藥效覆蓋所有蟲害藏匿點。',
+      tag: '家居服務',
+    },
+    {
+      img: '/images/case-4.jpg',
+      title: '蟲害跡象現場評估',
+      desc: '技術員到場後先進行全面評估，根據蟲害種類及嚴重程度制定最有效的處理方案。',
+      tag: '專業評估',
+    },
+    {
+      img: '/images/case-5.jpg',
+      title: '滅蟲藥劑專業施工',
+      desc: '使用漁護署認可藥劑，針對蟲害出沒位置進行精準施藥，確保藥效持久有效。',
+      tag: '專業施工',
+    },
+    {
+      img: '/images/case-6.jpg',
+      title: '隱蔽位置深度處理',
+      desc: '針對牆縫、地腳線、廚櫃底等隱蔽位置進行深度處理，杜絕蟲害藏匿繁殖空間。',
+      tag: '深度處理',
+    },
+  ];
+
+  return (
+    <section className="py-16 bg-slate-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeIn className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
+            <Camera className="w-4 h-4" />
+            真實施工個案
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black mb-4">真實個案相片</h2>
+          <p className="text-slate-400 max-w-2xl mx-auto">每一個個案都是我們的承諾，以專業技術為每位客戶徹底解決蟲害問題</p>
+        </FadeIn>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cases.map((c, i) => (
+            <FadeIn key={i} delay={i * 0.08}>
+              <div className="group rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 hover:border-red-500/50 transition-all hover:shadow-xl hover:shadow-red-900/20">
+                <div className="relative overflow-hidden aspect-[4/3]">
+                  <img
+                    src={c.img}
+                    alt={c.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+                  <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                    {c.tag}
+                  </span>
+                </div>
+                <div className="p-5">
+                  <h3 className="font-black text-white mb-2">{c.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">{c.desc}</p>
+                </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+        {/* 佔位符提示 - 可替換為更多真實相片 */}
+        <FadeIn className="mt-8">
+          <div className="border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center">
+            <Camera className="w-10 h-10 text-slate-500 mx-auto mb-3" />
+            <p className="text-slate-400 font-medium">更多真實個案相片</p>
+            <p className="text-slate-500 text-sm mt-1">可在此處加入更多施工前後對比相片</p>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
 // ─── Why Us ────────────────────────────────────────────────────────────────────
 function WhyUs() {
   const reasons = [
     { icon: ShieldCheck, title: '漁護署認可藥劑', desc: '所有使用藥劑均獲香港漁護署核准，安全有效，對人類及寵物無害。', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { icon: Award, title: '100% 包斷尾保障', desc: '服務後如問題未完全解決，我們承諾免費回訪跟進，直至徹底根治。', color: 'text-red-600', bg: 'bg-red-50' },
+    { icon: Award, title: '專業保障服務', desc: '服務後如問題未完全解決，我們承諾免費回訪跟進，直至徹底根治。', color: 'text-red-600', bg: 'bg-red-50' },
     { icon: Zap, title: '快速上門處理', desc: '覆蓋全港18區，緊急個案最快24小時內安排技術員上門。', color: 'text-amber-600', bg: 'bg-amber-50' },
     { icon: Users, title: '200+ 真實好評', desc: 'Google 評分 4.9/5.0，超過200位真實客戶見證，口碑有保證。', color: 'text-blue-600', bg: 'bg-blue-50' },
     { icon: Building2, title: '家居商業均適用', desc: '同時服務住宅及商業客戶，提供定期防治合約，全面保障。', color: 'text-purple-600', bg: 'bg-purple-50' },
@@ -680,7 +789,7 @@ function Process() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4">四步驟專業根治流程</h2>
-          <p className="text-slate-500 max-w-2xl mx-auto">系統化處理方法，確保100%斷尾不復發</p>
+          <p className="text-slate-500 max-w-2xl mx-auto">系統化處理方法，確保蟲害徹底根治不復發</p>
         </FadeIn>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((s, i) => (
@@ -699,13 +808,18 @@ function Process() {
   );
 }
 
-// ─── Reviews ───────────────────────────────────────────────────────────────────
+// ─── Reviews (TrustIndex Widget) ───────────────────────────────────────────────
 function Reviews() {
-  const reviews = [
-    { name: 'Helen Chang', initial: 'H', text: '非常專業，報價清晰，講解清楚。因家裏比較混亂，蟑螂問題已經持續咗一段時間，所以需要三次服務。每次師傅都非常耐心處理，最終成功根治，非常感謝！' },
-    { name: 'HoiYee Sin', initial: 'H', text: '住咗屋企十幾二十年都從未試過有蟲患出現。今次真係唔好彩，搵咗滅蟲職人，師傅好專業，一次過解決晒，好放心！' },
-    { name: 'Murphy Yeung', initial: 'M', text: '由發現問題當晚上網搵資料，1日後約好，2日後師傅上門，都算快！搵左幾間比較，最後選擇滅蟲職人，價錢合理，服務專業，非常滿意！' },
-  ];
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.trustindex.io/loader.js?8986e4665c80642e431622491c6';
+    script.defer = true;
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <section className="py-16 bg-slate-50">
@@ -718,25 +832,12 @@ function Reviews() {
           </div>
           <p className="text-slate-500">超過 200 位客戶的真實 Google 評論</p>
         </FadeIn>
-        <div className="grid sm:grid-cols-3 gap-6">
-          {reviews.map((r, i) => (
-            <FadeIn key={r.name} delay={i * 0.1}>
-              <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center font-black text-sm">{r.initial}</div>
-                  <div>
-                    <div className="font-bold text-slate-900 text-sm">{r.name}</div>
-                    <div className="flex gap-0.5 mt-0.5">
-                      {[...Array(5)].map((_, j) => <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-slate-600 text-sm leading-relaxed">「{r.text}」</p>
-                <p className="text-slate-400 text-xs mt-3">來自 Google 評論</p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
+
+        {/* TrustIndex Widget - 由 useEffect 動態注入 */}
+        <FadeIn>
+          <div className="trustindex-widget-container min-h-[300px]"></div>
+        </FadeIn>
+
         <FadeIn className="text-center mt-8">
           <a
             href="https://www.google.com/maps/place/%E6%BB%85%E8%9F%B2%E8%81%B7%E4%BA%BA%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8+-+Pest+Killer+Ltd/@22.336997,114.1494176,15.75z/data=!3m1!5s0x3403f9440c7967bd:0x7508b0d71c9822a6!4m8!3m7!1s0x34040703684e1483:0xaadb34e63464cc13!8m2!3d22.3371349!4d114.148673!9m1!1b1!16s%2Fg%2F11q4jq41zm?entry=ttu&g_ep=EgoyMDI2MDIxOC4wIKXMDSoASAFQAw%3D%3D"
@@ -758,11 +859,13 @@ function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
   const faqs = [
     { q: '滅蟲服務大概需要多少費用？', a: '費用視乎蟲害種類、單位面積及感染程度而定。我們提供免費上門評估及報價，報價透明無隱藏收費。建議填寫表單或 WhatsApp 我們獲取準確報價。' },
-    { q: '需要幾次處理才能完全根治？', a: '一般家居蟲害（如蟑螂、螞蟻）通常1-2次可根治。較嚴重或大範圍感染可能需要2-3次。我們提供100%包斷尾保障，若問題未完全解決會免費跟進。' },
+    { q: '需要幾次處理才能完全根治？', a: '一般家居蟲害（如蟑螂、螞蟻）通常1-2次可根治。較嚴重或大範圍感染可能需要2-3次。師傅第一次到現場會評估所需次數，給您最合適的處理方案。' },
     { q: '處理後多久可以回到家中？', a: '視乎使用的藥劑種類，一般需要離開1-3小時。技術員會在服務前詳細告知，確保您和家人的安全。' },
     { q: '藥劑對小孩和寵物安全嗎？', a: '我們使用的所有藥劑均獲香港漁護署認可，對人類及寵物安全。技術員會提供詳細的注意事項，確保使用安全。' },
     { q: '服務覆蓋香港哪些地區？', a: '我們覆蓋全港18區，包括港島、九龍及新界各區，緊急個案最快24小時內安排上門。' },
     { q: '商業客戶可以簽訂定期防治合約嗎？', a: '可以！我們為餐廳、酒店、學校、辦公室等商業場所提供定期防治合約，確保場所持續符合衛生標準。請選擇「商業客戶」填寫表單，專員會聯絡您詳細討論。' },
+    { q: '蟑螂處理後多久會看到效果？', a: '噴灑藥水後，蟑螂接觸藥劑後會逐漸中毒死亡，一般1-3天內可見明顯減少。蟑螂卵未孵化前有抗藥性，建議10-14天後進行第二次處理，根據生命週期徹底根治。' },
+    { q: '老鼠問題一次服務可以解決嗎？', a: '家居誤入情況多數一次能夠解決，但必須跟從師傅建議收好食物及做好預防。師傅到場後會先檢查老鼠可能進入的源頭，並提供預防建議，防止再有老鼠入屋。' },
   ];
 
   return (
@@ -880,6 +983,7 @@ export default function App() {
       <Hero />
       <StatsBar />
       <ServicesGrid />
+      <CaseGallery />
       <WhyUs />
       <Process />
       <Reviews />
