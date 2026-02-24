@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Noto Sans HK", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  font-family: "Noto Sans HK", sans-serif;
+  scroll-behavior: smooth;
+}
