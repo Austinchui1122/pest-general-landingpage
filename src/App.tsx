@@ -656,39 +656,39 @@ function CaseGallery() {
   const cases = [
     {
       img: '/images/case-1.jpg',
-      title: '商業場所蟲害檢查',
-      desc: '師傅使用專業內窺鏡設備，深入管道及隱蔽位置進行全面蟲害檢查，找出蟲害根源。',
+      title: '商業場所通風管道檢查',
+      desc: '師傅使用手電筒深入檢查商業場所通風管道及隱蔽位置，找出老鼠、蟑螂等蟲害藏匿根源。',
       tag: '商業服務',
     },
     {
       img: '/images/case-2.jpg',
-      title: '床褥高溫蒸氣處理',
-      desc: '使用專業蒸氣機對床褥進行高溫處理，有效殺滅床蝨及蟲卵，安全無藥劑殘留。',
-      tag: '家居服務',
+      title: '辦公室霧化滅蟲處理',
+      desc: '技術員穿著全套防護裝備，使用專業霧化機對辦公室進行全面滅蟲處理，安全徹底。',
+      tag: '商業服務',
     },
     {
       img: '/images/case-3.jpg',
-      title: '家居蟲害全面處理',
-      desc: '師傅對家居各隱蔽位置進行針對性藥劑噴灑，確保藥效覆蓋所有蟲害藏匿點。',
+      title: '床底隱蔽位置深度處理',
+      desc: '師傅針對床底、床架縫隙等蟲害藏匿點進行深度藥劑處理，配合吸塵清除蟲卵。',
       tag: '家居服務',
     },
     {
       img: '/images/case-4.jpg',
-      title: '蟲害跡象現場評估',
-      desc: '技術員到場後先進行全面評估，根據蟲害種類及嚴重程度制定最有效的處理方案。',
+      title: '廁所管道蟲害評估',
+      desc: '使用專業內窺鏡設備，深入廁所管道及牆身縫隙進行全面蟲害檢查，精準定位蟲害根源。',
       tag: '專業評估',
     },
     {
       img: '/images/case-5.jpg',
-      title: '滅蟲藥劑專業施工',
-      desc: '使用漁護署認可藥劑，針對蟲害出沒位置進行精準施藥，確保藥效持久有效。',
-      tag: '專業施工',
+      title: '天花夾層老鼠捕獲成果',
+      desc: '在天花夾層安裝黏鼠板後成功捕獲多隻老鼠，有效解決商業場所嚴重鼠患問題。',
+      tag: '老鼠防治',
     },
     {
       img: '/images/case-6.jpg',
-      title: '隱蔽位置深度處理',
-      desc: '針對牆縫、地腳線、廚櫃底等隱蔽位置進行深度處理，杜絕蟲害藏匿繁殖空間。',
-      tag: '深度處理',
+      title: '戶外環境滅蟲施工',
+      desc: '師傅對商業場所戶外環境進行針對性藥劑噴灑，有效防止蟲害從外部入侵室內。',
+      tag: '商業服務',
     },
   ];
 
@@ -726,14 +726,7 @@ function CaseGallery() {
             </FadeIn>
           ))}
         </div>
-        {/* 佔位符提示 - 可替換為更多真實相片 */}
-        <FadeIn className="mt-8">
-          <div className="border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center">
-            <Camera className="w-10 h-10 text-slate-500 mx-auto mb-3" />
-            <p className="text-slate-400 font-medium">更多真實個案相片</p>
-            <p className="text-slate-500 text-sm mt-1">可在此處加入更多施工前後對比相片</p>
-          </div>
-        </FadeIn>
+
       </div>
     </section>
   );
@@ -810,14 +803,25 @@ function Process() {
 
 // ─── Reviews (TrustIndex Widget) ───────────────────────────────────────────────
 function Reviews() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    // 先移除舊的 script（如有）
+    const existingScript = document.querySelector('script[src*="trustindex.io"]');
+    if (existingScript) existingScript.remove();
+
     const script = document.createElement('script');
     script.src = 'https://cdn.trustindex.io/loader.js?8986e4665c80642e431622491c6';
     script.defer = true;
     script.async = true;
-    document.body.appendChild(script);
+    // 注入到容器內，確保 widget 渲染在正確位置
+    if (containerRef.current) {
+      containerRef.current.appendChild(script);
+    } else {
+      document.body.appendChild(script);
+    }
     return () => {
-      document.body.removeChild(script);
+      if (script.parentNode) script.parentNode.removeChild(script);
     };
   }, []);
 
@@ -833,9 +837,9 @@ function Reviews() {
           <p className="text-slate-500">超過 200 位客戶的真實 Google 評論</p>
         </FadeIn>
 
-        {/* TrustIndex Widget - 由 useEffect 動態注入 */}
+        {/* TrustIndex Widget - script 注入到此容器內 */}
         <FadeIn>
-          <div className="trustindex-widget-container min-h-[300px]"></div>
+          <div ref={containerRef} className="trustindex-widget-container min-h-[300px] overflow-hidden"></div>
         </FadeIn>
 
         <FadeIn className="text-center mt-8">
