@@ -735,7 +735,7 @@ function CaseGallery() {
 // ─── Why Us ────────────────────────────────────────────────────────────────────
 function WhyUs() {
   const reasons = [
-    { icon: Award, title: 'HKU SPACE 港大認證 · 全港唯一', desc: '前線職人全數通過 HKU SPACE 雙證書考核，技術水平獲香港大學認可，業界唯一。', color: 'text-red-600', bg: 'bg-red-50' },
+    { icon: Award, title: 'HKU SPACE 港大認證團隊', desc: '前線職人全數通過 HKU SPACE 雙證書考核，技術水平獲香港大學認可。', color: 'text-red-600', bg: 'bg-red-50' },
     { icon: ShieldCheck, title: 'Bayer & BASF 國際原廠藥劑', desc: 'EPA + AFCD 漁護署雙重認可，Pet-Safe 兒童寵物友善配方，安全有效無殘留。', color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { icon: Zap, title: '24H 緊急上門', desc: '覆蓋全港18區，接受查詢後最快當日安排師傅，緊急個案24小時內上門。', color: 'text-amber-600', bg: 'bg-amber-50' },
     { icon: Search, title: '內窺鏡科技精準診斷', desc: '使用專業內窺鏡深入管道及隱蔽位置，肉眼看不見的蟲害根源無所遁形。', color: 'text-blue-600', bg: 'bg-blue-50' },
@@ -748,7 +748,7 @@ function WhyUs() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4">為何選擇滅蟲職人？</h2>
-          <p className="text-slate-500 max-w-2xl mx-auto">香港唯一 HKU SPACE 港大認證滅蟲團隊，以技術、安全、保障贏得客戶信賴</p>
+          <p className="text-slate-500 max-w-2xl mx-auto">HKU SPACE 港大認證滅蟲團隊，以技術、安全、保障贏得客戶信賴</p>
         </FadeIn>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {reasons.map((r, i) => (
