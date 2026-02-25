@@ -465,7 +465,7 @@ function QuoteForm() {
               ) : (
                 <>
                   <Search className="w-5 h-5" />
-                  {(!isHomeService && !isCommercial) ? '請先選擇服務項目' : '立即獲取免費報價'}
+                  {(!isHomeService && !isCommercial) ? '請先選擇服務項目' : '立即查詢，免費評估 →'}
                 </>
               )}
             </button>
@@ -508,7 +508,7 @@ function Hero() {
               className="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-1.5 rounded-full text-sm font-bold mb-6"
             >
               <AlertTriangle className="w-4 h-4" />
-              全港緊急上門 · 最快24小時內處理
+              全港緊急上門 · 最快24小時內處理 · 5年+ 實戰經驗
             </motion.div>
 
             <motion.h1
@@ -517,8 +517,8 @@ function Hero() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6"
             >
-              香港專業<span className="text-red-500">滅蟲服務</span><br />
-              根治蟲害，<span className="text-red-500">徹底解決</span>
+              發現蟲害？<span className="text-red-500">今天解決</span><br />
+              不讓問題<span className="text-red-500">拖到明天</span>
             </motion.h1>
 
             <motion.p
@@ -527,7 +527,7 @@ function Hero() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-lg sm:text-xl text-slate-300 mb-8 max-w-2xl leading-relaxed"
             >
-              專業處理蟑螂、老鼠、跳蚤、螞蟻、蚊蠅等各類蟲害，採用<strong className="text-white">漁護署認可藥劑</strong>，家居商業均適用，徹底根治不復發。
+              每月處理 500+ 宗頑固個案，<strong className="text-white">HKU SPACE 港大認證</strong>團隊，採用 Bayer & BASF 國際原廠藥劑，家居商業均適用，安全精準、徹底根治。
             </motion.p>
 
             <motion.div
@@ -537,9 +537,9 @@ function Hero() {
               className="flex flex-wrap gap-3"
             >
               {[
-                { icon: Star, text: "Google 4.9分 / 200+真實好評", color: "text-yellow-400" },
-                { icon: ShieldCheck, text: "漁護署認可藥劑", color: "text-emerald-400" },
-                { icon: Home, text: "家居商業均適用", color: "text-blue-400" },
+                { icon: Star, text: "香港Google家居滅蟲評分最高 4.9★", color: "text-yellow-400" },
+                { icon: ShieldCheck, text: "Bayer & BASF 國際原廠藥劑", color: "text-emerald-400" },
+                { icon: Award, text: "HKU SPACE 港大認證團隊", color: "text-blue-400" },
                 { icon: CheckCircle, text: "服務後保障回訪", color: "text-purple-400" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
@@ -594,9 +594,9 @@ function StatsBar() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
           {[
             { value: '200+', label: '真實 Google 好評' },
-            { value: '4.9⭐', label: 'Google 評分' },
-            { value: '10年+', label: '專業滅蟲經驗' },
-            { value: '24H', label: '最快上門時間' },
+            { value: '4.9★', label: '全港家居滅蟲最高評分' },
+            { value: '5年+', label: '實戰滅蟲經驗' },
+            { value: '24H', label: '緊急上門時間' },
           ].map((stat, i) => (
             <div key={i}>
               <div className="text-2xl font-black">{stat.value}</div>
@@ -628,7 +628,7 @@ function ServicesGrid() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4">全面蟲害防治服務</h2>
-          <p className="text-slate-500 max-w-2xl mx-auto">無論家居或商業場所，我們提供全方位蟲害解決方案</p>
+          <p className="text-slate-500 max-w-2xl mx-auto">無論家居或商業場所，滅蟲職人提供全方位蟲害解決方案，精準根治各類蟲害</p>
         </FadeIn>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {services.map((s, i) => (
@@ -735,12 +735,12 @@ function CaseGallery() {
 // ─── Why Us ────────────────────────────────────────────────────────────────────
 function WhyUs() {
   const reasons = [
-    { icon: ShieldCheck, title: '漁護署認可藥劑', desc: '所有使用藥劑均獲香港漁護署核准，安全有效，對人類及寵物無害。', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { icon: Award, title: '專業保障服務', desc: '服務後如問題未完全解決，我們承諾免費回訪跟進，直至徹底根治。', color: 'text-red-600', bg: 'bg-red-50' },
-    { icon: Zap, title: '快速上門處理', desc: '覆蓋全港18區，緊急個案最快24小時內安排技術員上門。', color: 'text-amber-600', bg: 'bg-amber-50' },
-    { icon: Users, title: '200+ 真實好評', desc: 'Google 評分 4.9/5.0，超過200位真實客戶見證，口碑有保證。', color: 'text-blue-600', bg: 'bg-blue-50' },
-    { icon: Building2, title: '家居商業均適用', desc: '同時服務住宅及商業客戶，提供定期防治合約，全面保障。', color: 'text-purple-600', bg: 'bg-purple-50' },
-    { icon: Lock, title: '透明合理收費', desc: '報價清晰，無隱藏收費，服務前詳細說明，讓您完全放心。', color: 'text-slate-600', bg: 'bg-slate-100' },
+    { icon: Award, title: 'HKU SPACE 港大認證 · 全港唯一', desc: '前線職人全數通過 HKU SPACE 雙證書考核，技術水平獲香港大學認可，業界唯一。', color: 'text-red-600', bg: 'bg-red-50' },
+    { icon: ShieldCheck, title: 'Bayer & BASF 國際原廠藥劑', desc: 'EPA + AFCD 漁護署雙重認可，Pet-Safe 兒童寵物友善配方，安全有效無殘留。', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { icon: Zap, title: '24H 緊急上門', desc: '覆蓋全港18區，接受查詢後最快當日安排師傅，緊急個案24小時內上門。', color: 'text-amber-600', bg: 'bg-amber-50' },
+    { icon: Search, title: '內窺鏡科技精準診斷', desc: '使用專業內窺鏡深入管道及隱蔽位置，肉眼看不見的蟲害根源無所遁形。', color: 'text-blue-600', bg: 'bg-blue-50' },
+    { icon: CheckCircle, title: '18 道職人 S.O.P 工序', desc: 'IPM 動態管理系統，18 道標準化工序確保零死角處理，徹底根治不復發。', color: 'text-purple-600', bg: 'bg-purple-50' },
+    { icon: Building2, title: '政府及教育機構指定選用', desc: '通過政府及多間知名學校、機構的嚴格審核，商業家居均信賴的滅蟲夥伴。', color: 'text-slate-600', bg: 'bg-slate-100' },
   ];
 
   return (
@@ -748,7 +748,7 @@ function WhyUs() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4">為何選擇滅蟲職人？</h2>
-          <p className="text-slate-500 max-w-2xl mx-auto">香港專業滅蟲公司，以技術、安全、保障贏得客戶信賴</p>
+          <p className="text-slate-500 max-w-2xl mx-auto">香港唯一 HKU SPACE 港大認證滅蟲團隊，以技術、安全、保障贏得客戶信賴</p>
         </FadeIn>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {reasons.map((r, i) => (
@@ -771,7 +771,7 @@ function WhyUs() {
 // ─── Process Steps ─────────────────────────────────────────────────────────────
 function Process() {
   const steps = [
-    { num: '01', title: '免費查詢報價', desc: '填寫表單或 WhatsApp 查詢，專員30分鐘內回覆，提供免費評估報價。', tag: '免費評估' },
+    { num: '01', title: '免費查詢報價', desc: '填寫表單或 WhatsApp 查詢，專員 30 分鐘內回覆，提供免費查詢報價，無需任何費用。', tag: '免費查詢' },
     { num: '02', title: '上門檢查評估', desc: '技術員上門全面檢查，找出蟲害來源及藏匿點，制定針對性處理方案。', tag: '專業診斷' },
     { num: '03', title: '專業藥劑處理', desc: '使用漁護署認可藥劑，針對不同蟲害採用最有效的處理方法，安全徹底。', tag: '安全認可' },
     { num: '04', title: '後續追蹤保障', desc: '提供後續追蹤與回訪，指導預防措施，確保問題徹底解決，讓您安心。', tag: '保障回訪' },
@@ -920,8 +920,8 @@ function CTASection() {
     <section className="py-16 bg-slate-900 text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <FadeIn>
-          <h2 className="text-3xl sm:text-4xl font-black mb-4">立即解決蟲害問題，今天就行動！</h2>
-          <p className="text-slate-300 mb-8 text-lg">蟲害繁殖速度極快，每拖一天問題就更嚴重。立即聯絡我們，獲取免費評估及報價。</p>
+          <h2 className="text-3xl sm:text-4xl font-black mb-4">蟲害每拖一天，<span className="text-red-400">問題就嚴重一分</span></h2>
+          <p className="text-slate-300 mb-8 text-lg">蟑螂、老鼠、跳蚤繁殖速度極快，今天的小問題明天就可能蔓延全屋。立即聯絡我們，獲取免費查詢報價。</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href={`tel:${PHONE}`}
